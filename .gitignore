@@ -2,3 +2,6 @@
 __pycache__/
 Inkplate-micropython/
 *.bin
+notes.md
+sd/img/*
+!sd/img/.gitkeep

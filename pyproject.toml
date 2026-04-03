@@ -9,4 +9,5 @@ dependencies = []
 dev = [
     "esptool>=4.8",
     "mpremote>=1.24",
+    "pillow>=10.0",
 ]
