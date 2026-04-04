@@ -41,6 +41,11 @@ def process(input: Path, output: Path, dither: bool = False):
     3. Quantize (and dither if selected) the image to our 4-colour grayscale.
     4. Save the image as an RGB PNG.
     """
+
+    mode = Image.Dither.NONE
+    if dither:
+        mode = Image.Dither.FLOYDSTEINBERG
+
     with Image.open(input) as img:
         img = ImageOps.exif_transpose(img)
         img = ImageOps.pad(
@@ -50,13 +55,8 @@ def process(input: Path, output: Path, dither: bool = False):
             color=min(GRAYSCALE_LEVELS),
             centering=(0.5, 0.5),
         )
-
-        mode = Image.Dither.NONE
-        if dither:
-            mode = Image.Dither.FLOYDSTEINBERG
-
         img = img.quantize(colors=4, palette=PALETTE, dither=mode)
-        img.convert("RGB")
+        img = img.convert("RGB")
         img.save(output, "PNG", optimize=True)
 
 
