@@ -5,6 +5,7 @@ import random
 import time
 from os import listdir
 
+import esp32
 import machine
 from inkplate10 import Inkplate
 
@@ -64,10 +65,16 @@ def main():
     # Load configuration
     print("Loading configuration...")
     config = load_config()
-    state = load_state()
     print(
         f"Config: interval={config['interval_minutes']} min, shuffle={config['shuffle']}"
     )
+    print("Loading previous state...")
+    state = load_state()
+    print(f"State: current_image={state['current_image']}")
+
+    # Setting up buttons
+    wake_button = machine.Pin(36, mode=machine.Pin.IN)
+    esp32.wake_on_ext0(pin=wake_button, level=esp32.WAKEUP_ALL_LOW)
 
     # Get list of image files
     image_files = get_image_files()
